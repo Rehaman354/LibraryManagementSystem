@@ -6,9 +6,9 @@ import com.example.LibraryManagementSystem.Repositories.AuthorRepository;
 import com.example.LibraryManagementSystem.Repositories.BookRepository;
 import com.example.LibraryManagementSystem.Services.Interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+
+
 public class BookServiceImpl implements BookService {
 
     @Autowired

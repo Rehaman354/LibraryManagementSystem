@@ -18,7 +18,8 @@ public class BookController {
         return bookService.addBook(book);
     }
     //find all the books
-
     //find all books of a particular author by author id
     //find no of books of an author
+    //delete book by its id
+    //update its price by id
 }

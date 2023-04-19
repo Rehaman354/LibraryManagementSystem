@@ -26,7 +26,9 @@ public class Student {
     private StudentYear year;
     @Enumerated(EnumType.STRING)
     private Department department;
+    @Column(unique = true)
     private String mobileNo;
+    @Column(unique = true)
     private String email;//
 
     @OneToOne(mappedBy = "student",cascade = CascadeType.ALL)

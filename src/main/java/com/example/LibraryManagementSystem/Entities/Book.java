@@ -1,13 +1,14 @@
 package com.example.LibraryManagementSystem.Entities;
 
-import com.example.LibraryManagementSystem.Enums.Department;
 import com.example.LibraryManagementSystem.Enums.Genre;
-import com.example.LibraryManagementSystem.Enums.StudentYear;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="book")
@@ -26,9 +27,19 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Genre genre;
     private String publishedBy;
-    private int price;//
+    private int price;
+    private boolean issued=false;//
 
     @ManyToOne
     @JoinColumn
     private Author author;
+
+    @ManyToOne
+    @JoinColumn
+    private Card card;
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
+    private List<Transaction> transactions=new ArrayList<>();
+
+
 }

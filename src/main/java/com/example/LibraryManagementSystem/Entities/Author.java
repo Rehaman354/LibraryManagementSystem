@@ -1,7 +1,6 @@
 package com.example.LibraryManagementSystem.Entities;
 
-import com.example.LibraryManagementSystem.Enums.Department;
-import com.example.LibraryManagementSystem.Enums.StudentYear;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +24,9 @@ public class Author {
     //user has to give these below 5 parameters to add a new author
     private String name;
     private int age;
+    @Column(unique = true)
     private String mobileNo;
+    @Column(unique = true)
     private String email;
     private int rating; //
 
