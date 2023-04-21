@@ -1,6 +1,7 @@
 package com.example.LibraryManagementSystem.Controllers;
 
 import com.example.LibraryManagementSystem.Entities.Author;
+import com.example.LibraryManagementSystem.RequestDtos.AuthorRequestDto;
 import com.example.LibraryManagementSystem.ResponseDtos.AuthorByEmailResponseDto;
 import com.example.LibraryManagementSystem.Services.Interfaces.AuthorService;
 import lombok.Getter;
@@ -14,9 +15,9 @@ public class AuthorController {
     AuthorService authorService;
     //add an author
     @PostMapping("/add")
-    public String addAuthor(@RequestBody Author author)
+    public String addAuthor(@RequestBody AuthorRequestDto authorDto) throws Exception
     {
-        return authorService.addAuthor(author);
+        return authorService.addAuthor(authorDto);
     }
 
     //find author By Email
@@ -25,6 +26,7 @@ public class AuthorController {
     {
         return authorService.getAuthorByEmail(email);
     }
+
     //delete  author by id
     //update author mobno by Id
     //find a author by Id

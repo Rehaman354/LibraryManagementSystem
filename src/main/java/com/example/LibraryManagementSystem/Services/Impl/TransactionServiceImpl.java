@@ -12,11 +12,14 @@ import com.example.LibraryManagementSystem.RequestDtos.IssueBookRequestDto;
 import com.example.LibraryManagementSystem.ResponseDtos.IssueBookResponseDto;
 import com.example.LibraryManagementSystem.Services.Interfaces.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.UUID;
 
-
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
@@ -25,6 +28,8 @@ public class TransactionServiceImpl implements TransactionService {
     BookRepository bookRepository;
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    private JavaMailSender emailSender;
 
     @Override
     public IssueBookResponseDto issueBook(IssueBookRequestDto issueBookRequestDto) throws Exception{
@@ -93,6 +98,14 @@ public class TransactionServiceImpl implements TransactionService {
         response.setTransactionNo(transaction.getTransactionNo());
         response.setTransactionStatus(transaction.getTransactionStatus());
         response.setBookName(transaction.getBook().getTitle());
+
+        //sending mails through this block of code
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("noreplyaryan999@gmail.com");
+        message.setTo(card.getStudent().getEmail());
+        message.setSubject("Issue book");
+        message.setText("Dear "+card.getStudent().getName()+" book with title "+book.getTitle()+" has been issued to you");
+        emailSender.send(message);
         return response;
     }
     //return book api

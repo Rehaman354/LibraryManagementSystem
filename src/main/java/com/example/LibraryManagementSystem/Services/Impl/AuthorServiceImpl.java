@@ -2,17 +2,33 @@ package com.example.LibraryManagementSystem.Services.Impl;
 
 import com.example.LibraryManagementSystem.Entities.Author;
 import com.example.LibraryManagementSystem.Repositories.AuthorRepository;
+import com.example.LibraryManagementSystem.RequestDtos.AuthorRequestDto;
 import com.example.LibraryManagementSystem.ResponseDtos.AuthorByEmailResponseDto;
 import com.example.LibraryManagementSystem.ResponseDtos.GetStudentResponseDto;
 import com.example.LibraryManagementSystem.Services.Interfaces.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthorServiceImpl implements AuthorService {
     @Autowired
     AuthorRepository authorRepository;
-    public String addAuthor(Author author)
+    public String addAuthor(AuthorRequestDto authorDto) throws Exception
     {
-        authorRepository.save(author);
+        try {
+             Author author = new Author();
+            author.setAge(authorDto.getAge());
+            author.setName(authorDto.getName());
+            author.setEmail(authorDto.getEmail());
+            author.setRating(authorDto.getRating());
+            author.setMobileNo(authorDto.getMobileNo());
+            authorRepository.save(author);
+        }
+        catch(Exception e)
+        {
+            throw new Exception(" pls check the details format");
+        }
+
        return "Author added successfully";
     }
 

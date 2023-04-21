@@ -4,6 +4,7 @@ import com.example.LibraryManagementSystem.Entities.Card;
 import com.example.LibraryManagementSystem.Entities.Student;
 import com.example.LibraryManagementSystem.Enums.Status;
 import com.example.LibraryManagementSystem.Exceptions.StudentNotFoundException;
+import com.example.LibraryManagementSystem.Repositories.CardRepository;
 import com.example.LibraryManagementSystem.Repositories.StudentRepository;
 import com.example.LibraryManagementSystem.RequestDtos.AddStudentRequestDto;
 import com.example.LibraryManagementSystem.RequestDtos.UpdateMobileByIdRequestDTo;
@@ -11,6 +12,7 @@ import com.example.LibraryManagementSystem.ResponseDtos.*;
 import com.example.LibraryManagementSystem.Services.Interfaces.StudentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
@@ -18,9 +20,11 @@ import java.util.Calendar;
 import java.util.List;
 
 
-
+@Service
 public class StudentServiceImpl implements StudentService {
 
+    @Autowired
+    CardRepository cardRepository;
     @Autowired
     StudentRepository studentRepository;
 
@@ -120,13 +124,19 @@ public class StudentServiceImpl implements StudentService {
         DeleteStudentResponseDto response;
         try {
             student = studentRepository.findById(id).get();
-            response = new DeleteStudentResponseDto();
-            response.setCardid(student.getCard().getId());
-            response.setStudentid(student.getId());
-            studentRepository.deleteById(id);
         } catch (Exception e) {
             throw new StudentNotFoundException("Student not found");
         }
+        Card card = cardRepository.findById(student.getCard().getId()).get();
+        int cardBooks=card.getBooks().size();
+            if (cardBooks != 0)
+                throw new Exception("Student card some books to return,so pls return the books ");
+
+        response = new DeleteStudentResponseDto();
+        response.setCardid(student.getCard().getId());
+        response.setStudentid(student.getId());
+        studentRepository.deleteById(id);
+
         return response;
     }
 }
