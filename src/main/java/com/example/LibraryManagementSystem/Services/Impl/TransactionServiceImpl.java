@@ -176,6 +176,13 @@ public class TransactionServiceImpl implements TransactionService {
         response.setTransactionNo(transaction.getTransactionNo());
         response.setTransactionStatus(transaction.getTransactionStatus());
         response.setBookName(transaction.getBook().getTitle());
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("noreplyaryan999@gmail.com");
+        message.setTo(card.getStudent().getEmail());
+        message.setSubject("Returned book");
+        message.setText("Dear "+card.getStudent().getName()+", book with title "+book.getTitle()+" has been returned by you, Thank you!");
+        emailSender.send(message);
         return response;
     }
 
